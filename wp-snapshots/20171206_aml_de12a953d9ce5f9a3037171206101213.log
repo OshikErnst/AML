@@ -1,0 +1,72 @@
+********************************************************************************
+DUPLICATOR-LITE PACKAGE-LOG: December 6, 2017 10:15 am
+NOTICE: Do NOT post to public sites or forums 
+********************************************************************************
+VERSION:	1.2.30
+WORDPRESS:	4.9.1
+PHP INFO:	7.1.8 | SAPI: apache2handler
+SERVER:		Apache/2.4.27 (Win32) OpenSSL/1.0.2l PHP/7.1.8 
+PHP TIME LIMIT: (0) no time limit imposed 
+PHP MAX MEMORY: 2048M (128M default) 
+MEMORY STACK: 4MB 
+
+********************************************************************************
+DATABASE:
+********************************************************************************
+BUILD MODE:   MYSQLDUMP
+MYSQLTIMEOUT: 5000
+MYSQLDUMP:    Is Supported 
+FILTERED: [] 
+RESPONSE: Ran from C:/xampp/mysql/bin/mysqldump.exe 
+TABLES: total:21 | filtered:0 | create:21 
+SQL CREATED: 20171206_aml_de12a953d9ce5f9a3037171206101213_database.sql 
+SQL FILE SIZE: 99.58KB (101974) 
+SQL FILE TIME: 2017-12-06 10:15:01 
+SQL RUNTIME: 0.75 sec. 
+
+******************************************************************************** 
+ARCHIVE (ZIP): 
+******************************************************************************** 
+ARCHIVE DIR:  C:/xampp/htdocs/aml 
+ARCHIVE FILE: 20171206_aml_de12a953d9ce5f9a3037171206101213_archive.zip 
+FILTERS: *OFF* 
+DIRS:
+	not set 
+FILES:
+	not set 
+EXTS:  not set 
+---------------------------------------- 
+COMPRESSING 
+SIZE:	643.02MB 
+STATS:	Dirs 2,149 | Files 37,636 
+SQL ADDED: 20171206_aml_de12a953d9ce5f9a3037171206101213_database.sql 
+ZipArchive Object
+(
+    [status] => 0
+    [statusSys] => 0
+    [numFiles] => 39785
+    [filename] => C:\xampp\htdocs\aml\wp-snapshots\tmp\20171206_aml_de12a953d9ce5f9a3037171206101213_archive.zip
+    [comment] => 
+)
+ 
+
+==================================================================================
+DUPLICATOR ERROR
+Please try again! If the error persists see the Duplicator 'Help' menu.
+---------------------------------------------------------------------------------
+MESSAGE:
+	ZipArchive close failure.
+DETAILS:
+	This hosted server may have a disk quota limit.
+Check to make sure this archive file can be stored.
+TRACE:
+	 1. class.pack.archive.zip.php : Error (147)
+	 2. class.pack.archive.php : create (86)
+	 3. class.pack.php : build (233)
+	 4. ctrl.package.php : runBuild (61)
+	 5. class-wp-hook.php : duplicator_package_build (286)
+	 6. class-wp-hook.php : apply_filters (310)
+	 7. plugin.php : do_action (453)
+	 8. admin-ajax.php : do_action (97)
+==================================================================================
+
