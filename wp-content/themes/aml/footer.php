@@ -1252,7 +1252,18 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 	            "columns": [
 	            	{ "data": "ID", "className": 'details-control' },
 	                { "data": "LogDate", "className": 'details-control' },
-	                { "data": "Log", "className": 'details-control' },
+	                
+	                
+	                { "targets": 2,
+                    	"data": "Log",
+						"className": 'details-control',
+						"render": function ( data, type, full, meta ) {
+							 var cur_data;
+							 cur_data = data.replace(/,/g, '<br>');
+		                     return cur_data;
+		                 }
+					 },
+
 	                
 
 	                { "targets": 3,
@@ -1262,8 +1273,10 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 		                     var LogType;
 		                     if(data.LogType==1){
 		                     	return 'מקומי';
-		                     }else{
+		                     }else if(data.LogType==2){
 		                     	return 'חול';
+		                     }else{
+		                     	return data.LogType;
 		                     }
 		                     
 		                 }
@@ -1288,6 +1301,102 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 	    
 
 	</script>
+
+<?php //$pageDetails = get_post(); ?>
+<?php //echo json_encode( $pageDetails->post_title ); ?>
+
+<?php if(is_page('User') || is_page('Clinical Trial') || is_page('Site')){?>
+	<!-- Log actions !-->
+
+ <script>
+var $form = $('form')
+
+$($form).data('serialize',$($form).serialize());
+
+var currentTime = moment().format("HH:mm");
+<?php global $current_user;
+      get_currentuserinfo();
+      
+      
+?>
+var currentUser = "<?php echo $current_user->display_name;?>";
+<?php $pageDetails = get_post(); ?>
+var currentPage = <?php echo json_encode( $pageDetails->post_title ); ?>;
+
+
+$form.submit(function(){
+    if($($form).serialize()!=$($form).data('serialize')){
+	    <?php if($_GET['formid']) { ?>
+			var formId = "<?php echo $_GET['formid']; ?>";
+	    <?php }else{?>
+			var formId = "0";
+	    <?php }?>
+		var array1 = $($form).data('serialize').split('&');
+		var array2 = $($form).serialize().split('&');
+		var currentDifference = arr_diff(array1,array2);
+
+       $.ajax({
+	     type: 'post',
+	     url: '<?php echo bloginfo('url');?>/fetch/aml_log_create.php',
+	     
+	     data: {
+	      formid:formId,
+	      currentTime:currentTime,
+	      currentUser:currentUser,
+	      currentDifference:currentDifference,
+	      LogType:currentPage
+
+	     }
+	    });
+    }
+});
+
+
+
+function arr_diff (a1, a2) {
+
+    var a = [],b = [], diff = [];
+
+    for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+    }
+
+    for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+            delete a[a2[i]];
+        } else {
+            b[a2[i]] = true;
+        }
+    }
+
+    diff.push('before: ')
+    
+    for (var k in a) {
+    	
+       	diff.push(k);
+       	
+    }
+
+
+    diff.push('after: ')
+
+
+    for (var k in b) {
+    	
+       	diff.push(k);
+       	
+    }
+
+    
+
+    return diff;
+}
+
+
+
+</script>
+<?php } //end of log actions; ?>
+
 <?php wp_footer(); ?>
 
         
