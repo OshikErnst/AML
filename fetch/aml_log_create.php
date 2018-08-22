@@ -19,7 +19,7 @@ $LogDate = date("d/m/Y");
 
 
 if($_POST['formid'] != "0"){
-	$text_for_log = $currentUser .'עדכן/נה משלוח מספר '. $formid .' בשעה '.$currentTime.'<br /> שינויים:<br />'.urldecode($groupedDifference);
+	$text_for_log = $currentUser .' עדכן/נה משלוח מספר '. $formid .' בשעה '.$currentTime.'<br /> שינויים:<br />'.urldecode($groupedDifference);
 }else{
 	$text_for_log = $currentUser .' עדכן/נה בשעה '.$currentTime.'<br /><strong> שינויים:</strong><br />'.urldecode($groupedDifference);
 }	

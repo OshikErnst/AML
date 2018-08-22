@@ -652,6 +652,7 @@ function clean_str($string) {
 ?>
 
  <script>
+var $form = $('form')
 $( document ).ready(function() {
     
     $("#outbound_shipment_date").datepicker({
@@ -787,6 +788,45 @@ if(manifest_name){
            return false;
         }
 
+        var currentTime = moment().format("HH:mm");
+        <?php global $current_user;
+              get_currentuserinfo();
+              
+              
+        ?>
+        var currentUser = "<?php echo $current_user->display_name;?>";
+        
+        
+
+
+        
+            if($($form).serialize()!=$($form).data('serialize')){
+
+                
+                var formId = "<?php echo $_GET['formid']; ?>";
+                
+                var array1 = $($form).data('serialize').split('&');
+                var array2 = $($form).serialize().split('&');
+                var currentDifference = arr_diff(array1,array2);
+
+                var currentPage = 'טופס חול מספר ' + formId;
+                
+
+               $.ajax({
+                 type: 'post',
+                 url: '<?php echo bloginfo('url');?>/fetch/aml_log_create.php',
+                 
+                 data: {
+                  formid:formId,
+                  currentTime:currentTime,
+                  currentUser:currentUser,
+                  currentDifference:currentDifference,
+                  LogType:currentPage
+
+                 }
+                });
+            }
+
         
     });
 
@@ -843,7 +883,8 @@ switch(field_type) {
 
 }
 
-
+            //retrieve first form for log
+            $($form).data('serialize',$($form).serialize());
 
  }
  });

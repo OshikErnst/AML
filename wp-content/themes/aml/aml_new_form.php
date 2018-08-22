@@ -590,7 +590,12 @@ get_header();
 
  <script>
     var hour_limit;
+    var $form = $('form')
+
+        
 $( document ).ready(function() {
+    $($form).data('serialize',$($form).serialize());
+
     $("#date").datepicker({
         <?php if(!current_user_can('administrator')){?> startDate: "today", <?php }?> 
         format: 'dd/mm/yyyy'
@@ -632,6 +637,7 @@ $( document ).ready(function() {
                 return false;
             }
         }
+
         
         $('.sending').show();
         

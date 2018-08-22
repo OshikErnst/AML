@@ -1305,10 +1305,12 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 <?php //$pageDetails = get_post(); ?>
 <?php //echo json_encode( $pageDetails->post_title ); ?>
 
-<?php if(is_page('User') || is_page('Clinical Trial') || is_page('Site')){?>
+ <script>
+
+<?php if(is_page(array( 'User', 'Clinical Trial','Site','Visit','Pickup Type','Courier','Target','Zone','Int Target','World Courier','Shipping Type','Tube Name' ))){?>
 	<!-- Log actions !-->
 
- <script>
+
 var $form = $('form')
 
 $($form).data('serialize',$($form).serialize());
@@ -1351,7 +1353,7 @@ $form.submit(function(){
     }
 });
 
-
+<?php } //end of log actions; ?>
 
 function arr_diff (a1, a2) {
 
@@ -1369,7 +1371,7 @@ function arr_diff (a1, a2) {
         }
     }
 
-    diff.push('before: ')
+    diff.push('<strong>לפני: </strong>')
     
     for (var k in a) {
     	
@@ -1378,7 +1380,7 @@ function arr_diff (a1, a2) {
     }
 
 
-    diff.push('after: ')
+    diff.push('<strong>אחרי: </strong>')
 
 
     for (var k in b) {
@@ -1395,7 +1397,7 @@ function arr_diff (a1, a2) {
 
 
 </script>
-<?php } //end of log actions; ?>
+
 
 <?php wp_footer(); ?>
 
