@@ -29,8 +29,10 @@ while ($i <= $loops) {
 	$newDate = date("d-m-Y", strtotime($term->date));
     $aForms["date"] = $newDate;
 
-    $ct_codes = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID=".$term->meta->ctcodes);
-    $aForms["ctcodes"] = $ct_codes->name;
+    if($term->meta->ctcodes){
+        $ct_codes = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID=".$term->meta->ctcodes);
+        $aForms["ctcodes"] = $ct_codes->name;
+    }
 
     $cur_visits = unserialize($term->meta->visits);
 
@@ -53,17 +55,25 @@ while ($i <= $loops) {
     $all_cur_visits =  substr($all_cur_visits, 0, -7);
     $aForms["visits"] = $all_cur_visits;
 
-    $ct_sites = $wpdb->get_row( "SELECT * FROM aml_sites where ID=".$term->meta->sites);
-    $aForms["sites"] = $ct_sites->name . " &#45; " . $ct_sites->department;    
+    if($term->meta->sites){
+        $ct_sites = $wpdb->get_row( "SELECT * FROM aml_sites where ID=".$term->meta->sites);
+        $aForms["sites"] = $ct_sites->name . " &#45; " . $ct_sites->department;    
+    }
 
-    $ct_targets = $wpdb->get_row( "SELECT * FROM aml_targets where ID=".$term->meta->targets);
-    $aForms["targets"] = $ct_targets->name;       
+    if($term->meta->targets){
+        $ct_targets = $wpdb->get_row( "SELECT * FROM aml_targets where ID=".$term->meta->targets);
+        $aForms["targets"] = $ct_targets->name;       
+    }
 
-    $ct_couriers = $wpdb->get_row( "SELECT * FROM aml_couriers where ID=".$term->meta->courier);
-    $aForms["couriers"] = $ct_couriers->name;    
+    if($term->meta->courier){
+        $ct_couriers = $wpdb->get_row( "SELECT * FROM aml_couriers where ID=".$term->meta->courier);
+        $aForms["couriers"] = $ct_couriers->name;  
+    }  
 
-    $ct_pickups = $wpdb->get_row( "SELECT * FROM aml_pickup_types where ID=".$term->meta->pickup);
-    $aForms["pickup"] = $ct_pickups->name;           
+    if($term->meta->pickup){
+        $ct_pickups = $wpdb->get_row( "SELECT * FROM aml_pickup_types where ID=".$term->meta->pickup);
+        $aForms["pickup"] = $ct_pickups->name;           
+    }
 
 	$aForms["pickup_date"] = $term->meta->date;
 

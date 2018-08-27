@@ -6,17 +6,25 @@ $post = get_post( $_POST['formid'] );
 setup_postdata( $post );
 
 $cur_ctcodes = get_post_meta( get_the_ID(), 'ctcodes', true );
-$fetch_ct_code = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID = " . $cur_ctcodes);
+if($cur_ctcodes){
+	$fetch_ct_code = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID = " . $cur_ctcodes);
+}
+
 
 $cur_sites = get_post_meta( get_the_ID(), 'sites', true );
-$fetch_sites = $wpdb->get_row( "SELECT * FROM aml_sites where ID = " . $cur_sites);
+if($cur_sites){
+	$fetch_sites = $wpdb->get_row( "SELECT * FROM aml_sites where ID = " . $cur_sites);
+}
 
 $int_ctcodes = get_post_meta( get_the_ID(), 'ctcodes', true );
-$fetch_int_ctcodes = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID = " . $int_ctcodes);
+if($int_ctcodes){
+	$fetch_int_ctcodes = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID = " . $int_ctcodes);
+}
 
 $int_targets = get_post_meta( get_the_ID(), 'int_targets', true );
-$fetch_int_targets = $wpdb->get_row( "SELECT * FROM aml_int_targets where ID = " . $int_targets);
-
+if($int_targets){
+	$fetch_int_targets = $wpdb->get_row( "SELECT * FROM aml_int_targets where ID = " . $int_targets);
+}
     
     
 

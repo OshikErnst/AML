@@ -35,11 +35,15 @@ foreach($cur_form as $term){
 	$newDate = date("d-m-Y", strtotime($term->date));
     $aForms["date"] = $newDate;
 
-    $ct_codes = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID=".$term->meta->ctcodes);
-    $aForms["int_ctcodes"] = $ct_codes->name;
+    if($term->meta->ctcodes){
+	    $ct_codes = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID=".$term->meta->ctcodes);
+	    $aForms["int_ctcodes"] = $ct_codes->name;
+	}
 
-    $int_targets = $wpdb->get_row( "SELECT * FROM aml_int_targets where ID=".$term->meta->int_targets);
-    $aForms["int_targets"] = $int_targets->name;
+	if($term->meta->int_targets){
+	    $int_targets = $wpdb->get_row( "SELECT * FROM aml_int_targets where ID=".$term->meta->int_targets);
+	    $aForms["int_targets"] = $int_targets->name;
+	}
     
 
 	$aForms["awb"] = $term->meta->awb;
@@ -48,11 +52,15 @@ foreach($cur_form as $term){
 
 	$aForms["outbound_shipment_date"] = $term->meta->outbound_shipment_date;
 
-	$world_couriers = $wpdb->get_row( "SELECT * FROM aml_world_couriers where ID=".$term->meta->world_courier);
-    $aForms["world_courier"] = $world_couriers->name;
+	if($term->meta->world_courier){
+		$world_couriers = $wpdb->get_row( "SELECT * FROM aml_world_couriers where ID=".$term->meta->world_courier);
+	    $aForms["world_courier"] = $world_couriers->name;
+	}
 
-	$shipping_types = $wpdb->get_row( "SELECT * FROM aml_shipping_types where ID=".$term->meta->shipping_type);
-    $aForms["shipping_type"] = $shipping_types->name;   
+	if($term->meta->shipping_type){
+		$shipping_types = $wpdb->get_row( "SELECT * FROM aml_shipping_types where ID=".$term->meta->shipping_type);
+	    $aForms["shipping_type"] = $shipping_types->name;   
+	}
 
     
      
