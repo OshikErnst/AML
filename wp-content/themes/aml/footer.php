@@ -185,15 +185,16 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 
     <script src="//cdn.datatables.net/plug-ins/1.10.16/sorting/date-eu.js"></script>
 
-    
-    
-    
+
     
 
 	<?php } ?>
 
-	<script>
+	<!-- Tracking errors -->
+    <script src="https://cdn.ravenjs.com/3.26.4/raven.min.js" crossorigin="anonymous"></script>
 
+	<script>
+		Raven.config('https://8a2f10eb73294aa289b871a54fe45d34@sentry.io/1269411').install()
 		$(document).ready(function() {
 			var cur_last_id;
 

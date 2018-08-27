@@ -94,6 +94,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) && $_POS
         }else{
             if ( is_wp_error( $user_id ) ) {
                $error = $user_id->get_error_message();
+
                //echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
             }
         }
@@ -164,6 +165,8 @@ get_header();
                                                 echo $error;
                                             }
                                              echo '</p>';
+
+
                                           
                                         ?>  
 
@@ -340,4 +343,29 @@ get_header();
 
         </div>
         <!-- END wrapper -->
+    
 <?php get_footer();?>
+
+<?php if ( count($error) > 0 ) { ?>
+
+<script>
+$('#user-name').val('<?php echo $_POST['user-name'];?>');
+$('#first-name').val('<?php echo $_POST['first-name'];?>');
+$('#last-name').val('<?php echo $_POST['last-name'];?>');
+$('#email').val('<?php echo $_POST['email'];?>');
+$('#pass1').val('<?php echo $_POST['pass1'];?>');
+$('#pass2').val('<?php echo $_POST['pass2'];?>');
+$('#phonenumber').val('<?php echo $_POST['phonenumber'];?>');
+
+$('[name=ctcodes]').val('<?php echo $_POST['ctcodes[]'];?>').trigger('change');
+
+$('[name=sites]').val('<?php echo $_POST['sites'];?>').trigger('change');
+
+$('#roles').val('<?php echo $_POST['roles'];?>');
+
+
+</script>
+
+
+
+<?php } ?>    

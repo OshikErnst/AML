@@ -64,10 +64,12 @@ get_header();
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php foreach ( $blogusers as $user ) {?>
+                                    <?php foreach ( $blogusers as $user ) {
+                                        $user_info = get_userdata($user->ID)?>
                                     <tr>
                                         <th scope="row"><?php echo $user->ID;?></th>
-                                        <td><a href=<?php echo home_url().'/user?userid='. esc_html( $user->ID ) ;?>><?php echo $user->display_name; ?></a></td>
+
+                                        <td><a href=<?php echo home_url().'/user?userid='. esc_html( $user->ID ) ;?>><?php echo $user_info->first_name; ?> <?php echo $user_info->last_name; ?></a></td>
                                         <td>
                                             <?php if(current_user_can('administrator')){
                                             if(get_current_user_id() != $user->ID){

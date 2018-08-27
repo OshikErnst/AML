@@ -64,7 +64,14 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) && ($_PO
         $mail_ct_code = $wpdb->get_row( "SELECT * FROM aml_clinicaltrials where ID = " . $_POST['ctcodes']);
         $mail_sites = $wpdb->get_row( "SELECT * FROM aml_sites where ID = " . $_POST['sites']);
         $mail_pickup = $wpdb->get_row( "SELECT * FROM aml_pickup_types where ID = " . $_POST['pickup']);
-        $mail_target = $wpdb->get_row( "SELECT * FROM aml_targets where ID = " . $_POST['targets']);
+        if(current_user_can('administrator')){
+        $mail_target = $wpdb->get_row( "SELECT * FROM aml_sites where ID = " . $_POST['targets']);
+        $address_string = $mail_target->name .' - '. $mail_target->department .' - '. $mail_target->address;
+        }else{
+            $mail_target = $wpdb->get_row( "SELECT * FROM aml_targets where ID = " . $_POST['targets']);
+            $address_string = $mail_target->name .' - '. $mail_target->address;
+        }
+        
 
         $user_info = get_userdata($_POST['username']);
         $mail_username = $user_info->display_name;
@@ -80,7 +87,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) && ($_PO
 
         /* EMAIL */
 
-        $content = 'נבקש לתאם את המשלוח הבא :<br /><br /><table cellpadding=10 cellspasing=10><tr><td>מחקר</td><td style="direction:rtl;text-align:center;">'.$mail_ct_code->name.'</td><td>Study name</td></tr><tr><td>בית חולים</td><td style="direction:rtl;text-align:center;">'.$mail_sites->name.' - '.$mail_sites->department.'</td><td>Hospital</td></tr><tr><td>מחלקה</td><td style="direction:rtl;text-align:center;">'.$_POST['department'].'</td><td>Department</td></tr><tr><td>אזור בארץ</td><td style="direction:rtl;text-align:center;">'.$mail_zone->name.'</td><td>zone</td></tr><tr><td>חברת הובלה</td><td style="direction:rtl;text-align:center;">'.$mail_courier->name.'</td><td>courier</td></tr><tr><td>איש קשר</td><td style="direction:rtl;text-align:center;">'.$_POST['contact'].'</td><td>Contact person</td></tr><tr><td>כתובת איסוף</td><td style="direction:rtl;text-align:center;">'.$_POST['address'].'</td><td>Pickup Address</td></tr><tr><td>טלפון</td><td style="text-align:center;">'.$_POST['phone'].'</td><td>Tel Number</td></tr><tr><td>סוג איסוף</td><td style="direction:rtl;text-align:center;">'.$mail_pickup->name.'</td><td>Kind of shipment</td></tr><tr><td>יעד המשלוח</td><td style="direction:rtl;text-align:center;">'.$mail_target->address.'</td><td>shipment target</td></tr><tr><td>תאריך איסוף</td><td style="text-align:center;">'.$_POST['date'].'</td><td>Inbound shipment(Date)</td></tr><tr><td>שעות איסוף</td><td style="text-align:center;">'.$_POST['hour_from'].'-'.$_POST['hour_to'].' / '.$_POST['taxi_hour'].':'.$_POST['taxi_mins'].'</td><td>Time of shipment</td></tr><tr><td>הערות</td><td style="direction:rtl;text-align:center;">'.$_POST['notes'].'</td><td>Comment</td></tr><tr><td>ביקור</td><td style="direction:rtl;text-align:center;">'.$cur_visit.'</td><td>Visit</td></tr><tr><td>הוזמן על ידי</td><td style="direction:rtl;text-align:center;">'.$mail_username.'</td><td>ordered by</td></tr><tr><td>מספר הזמנה</td><td style="text-align:center;">'.$the_post_id.'</td><td>Order Num</td></tr></table>';
+        $content = 'נבקש לתאם את המשלוח הבא :<br /><br /><table cellpadding=10 cellspasing=10><tr><td>מחקר</td><td style="direction:rtl;text-align:center;">'.$mail_ct_code->name.'</td><td>Study name</td></tr><tr><td>בית חולים</td><td style="direction:rtl;text-align:center;">'.$mail_sites->name.' - '.$mail_sites->department.'</td><td>Hospital</td></tr><tr><td>מחלקה</td><td style="direction:rtl;text-align:center;">'.$_POST['department'].'</td><td>Department</td></tr><tr><td>אזור בארץ</td><td style="direction:rtl;text-align:center;">'.$mail_zone->name.'</td><td>zone</td></tr><tr><td>חברת הובלה</td><td style="direction:rtl;text-align:center;">'.$mail_courier->name.'</td><td>courier</td></tr><tr><td>איש קשר</td><td style="direction:rtl;text-align:center;">'.$_POST['contact'].'</td><td>Contact person</td></tr><tr><td>כתובת איסוף</td><td style="direction:rtl;text-align:center;">'.$_POST['address'].'</td><td>Pickup Address</td></tr><tr><td>טלפון</td><td style="text-align:center;">'.$_POST['phone'].'</td><td>Tel Number</td></tr><tr><td>סוג איסוף</td><td style="direction:rtl;text-align:center;">'.$mail_pickup->name.'</td><td>Kind of shipment</td></tr><tr><td>יעד המשלוח</td><td style="direction:rtl;text-align:center;">'.$address_string.'</td><td>shipment target</td></tr><tr><td>תאריך איסוף</td><td style="text-align:center;">'.$_POST['date'].'</td><td>Inbound shipment(Date)</td></tr><tr><td>שעות איסוף</td><td style="text-align:center;">'.$_POST['hour_from'].'-'.$_POST['hour_to'].' / '.$_POST['taxi_hour'].':'.$_POST['taxi_mins'].'</td><td>Time of shipment</td></tr><tr><td>הערות</td><td style="direction:rtl;text-align:center;">'.$_POST['notes'].'</td><td>Comment</td></tr><tr><td>ביקור</td><td style="direction:rtl;text-align:center;">'.$cur_visit.'</td><td>Visit</td></tr><tr><td>הוזמן על ידי</td><td style="direction:rtl;text-align:center;">'.$mail_username.'</td><td>ordered by</td></tr><tr><td>מספר הזמנה</td><td style="text-align:center;">'.$the_post_id.'</td><td>Order Num</td></tr></table>';
 
           $courier_email = $_POST['courier_email'];
 
@@ -95,7 +102,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) && ($_PO
     $mail->Host = 'outlook.office365.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'deliveries@aml.co.il';
-    $mail->Password = 'Dd123456';
+    $mail->Password = 'GhErBM19@#';
     $mail->SMTPSecure = 'tls';
 
     $mail->setFrom('deliveries@aml.co.il', 'AML');
@@ -316,19 +323,35 @@ get_header();
                                             <select  name="targets" class="form-control">
                                                 <option value="-1" selected="">-- Choose A Target --</option>
                                                 <?php 
+                                                if(current_user_can('administrator')){
+                                                    $targets = $wpdb->get_results( "SELECT * FROM aml_sites");
+                                                    
+                                                }else{
                                                     $targets = $wpdb->get_results( "SELECT * FROM aml_targets");
+                                                    
+                                                }
 
-                                                    foreach ( $targets as $term ) {
-                                                        
-                                                        $selected = '';
-                                                        if($term->ID == $cur_targets){
-                                                            $selected = ' selected';
-                                                        }
-                                                    ?>
-                                                    <option value="<?php echo $term->ID;?>" <?php echo $selected; ?>><?php echo $term->name; ?>-<?php echo $term->address; ?></option>
-                                                <?php 
-                                                } ?>
-                                            </select>
+                                                ?>
+                                                
+                                                    
+                                                    <?php $count = count($targets); if ( $count > 0 ){ 
+                                                        foreach ( $targets as $term ) {
+                                                            $selected = '';
+                                                            if($term->ID == $cur_targets){
+                                                                $selected = ' selected';
+                                                            }
+                                                            if(current_user_can('administrator')){
+                                                                $address_string = $term->name .' - '. $term->department .' - '. $term->address;
+                                                            }else{
+                                                                $address_string = $term->name .' - '. $term->address;
+                                                            }
+                                                        ?>
+                                                        <option value="<?php echo $term->ID;?>" <?php echo $selected; ?>><?php echo $address_string; ?></option>
+                                                    <?php } 
+                                                    } ?>
+                                                </select>
+                                                
+                                            
                                         </div>
                                     </div>  
 

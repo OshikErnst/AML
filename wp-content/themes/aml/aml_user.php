@@ -173,7 +173,7 @@ get_header();
 
                                                     $current_arr = get_the_author_meta( 'ctcodes', $user_info->ID ); ?>
                                                     
-                                                    <select  name="ctcodes[]" multiple="multiple" class="form-control select2 select2-multiple ctcodes" data-placeholder="Choose ...">
+                                                    <select  name="ctcodes[]" multiple="multiple" class="form-control select2 select2-multiple" data-placeholder="Choose ...">
                                                         <?php
                                                         global $wpdb;
                                                         $ct_codes = $wpdb->get_results( "SELECT * FROM aml_clinicaltrials order by name");
@@ -294,6 +294,4 @@ get_header();
 
         </div>
         <!-- END wrapper -->
-
-
 <?php get_footer();?>

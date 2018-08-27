@@ -12,7 +12,7 @@ $mail->isSMTP();
 $mail->Host = 'outlook.office365.com';
 $mail->SMTPAuth = true;
 $mail->Username = 'deliveries@aml.co.il';
-$mail->Password = 'Dd123456';
+$mail->Password = 'GhErBM19@#';
 $mail->SMTPSecure = 'tls';
 
 $mail->setFrom('deliveries@aml.co.il', 'AML');
