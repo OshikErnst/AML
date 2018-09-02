@@ -390,6 +390,29 @@ get_header();
             format: 'dd/mm/yyyy'
         });
 
+
+        //Log form enter
+
+        var currentTime = moment().format("HH:mm");
+            <?php global $current_user;
+                  get_currentuserinfo();
+        ?>
+        var currentUser = "<?php echo $current_user->display_name;?>";
+        var currentPage = "כניסה לטופס חול";
+
+        $.ajax({
+            type: 'post',
+            url: '<?php echo bloginfo('url');?>/fetch/aml_log_enter_form.php',
+            
+            data: {
+             currentTime:currentTime,
+             currentUser:currentUser,
+             LogType:currentPage
+
+            }
+        });
+
+
         $('#newform').submit(function(){
             var hour_from = $('#hour_from').val();
             var hour_to = $('#hour_to').val();

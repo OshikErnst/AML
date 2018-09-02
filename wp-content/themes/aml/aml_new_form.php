@@ -388,7 +388,11 @@ get_header();
                                         </div>
                                     </div>
 
-                                    <?php $zones = $wpdb->get_row( "SELECT * FROM aml_zones where ID = " . $sites->zone);?>
+                                    <?php 
+                                        if($sites->zone){
+                                            $zones = $wpdb->get_row( "SELECT * FROM aml_zones where ID = " . $sites->zone);
+                                        }
+                                    ?>
 
 
 
@@ -405,11 +409,13 @@ get_header();
                                     <div class="form-group row">
 
                                         <?php 
-                                        $couriers = $wpdb->get_row( "SELECT * FROM aml_couriers_zones WHERE zone_id=" .$zones->ID );
-                                            
+                                        if($zones->ID){
+                                            $couriers = $wpdb->get_row( "SELECT * FROM aml_couriers_zones WHERE zone_id=" .$zones->ID );
+                                        }    
                                         
-
+                                        if($couriers->courier_id){
                                          $courier_name = $wpdb->get_row( "SELECT * FROM aml_couriers WHERE ID=" .$couriers->courier_id );  
+                                        }
 
                                         ?>
                                         <input class="form-control" name="courier_id_first" type="hidden" id="courier_id_first" value="<?php echo $courier_name->ID;?>" />
@@ -628,6 +634,28 @@ $( document ).ready(function() {
     $('#cancel-form').click(function() {
         if (confirm('Are you sure?')) {
           window.location.href = "<?php echo bloginfo('url');?>/forms";
+        }
+    });
+
+
+    //Log form enter
+
+    var currentTime = moment().format("HH:mm");
+        <?php global $current_user;
+              get_currentuserinfo();
+    ?>
+    var currentUser = "<?php echo $current_user->display_name;?>";
+    var currentPage = "כניסה לטופס מקומי";
+
+    $.ajax({
+        type: 'post',
+        url: '<?php echo bloginfo('url');?>/fetch/aml_log_enter_form.php',
+        
+        data: {
+         currentTime:currentTime,
+         currentUser:currentUser,
+         LogType:currentPage
+
         }
     });
 

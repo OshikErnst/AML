@@ -1042,7 +1042,7 @@ $( document ).ready(function() {
     });
 
     //check_pickuptype();
-    
+    <?php if($sites->ID){?>
     $.ajax({
          type: 'post',
          url: '../fetch/aml_check_time_limit.php',
@@ -1066,7 +1066,7 @@ $( document ).ready(function() {
             
          }
     });
-
+    <?php } ?>
 
     $.ajax({
      type: 'post',
