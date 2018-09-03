@@ -41,7 +41,7 @@ foreach($cur_form as $term){
 	}
 
     if($term->meta->int_targets){
-	    $int_targets = $wpdb->get_row( "SELECT * FROM aml_int_targets where ID=".$term->meta->int_targets);
+	    $int_targets = $wpdb->get_row( "SELECT * FROM aml_int_targets where ID='".$term->meta->int_targets."'");
 	    $aForms["int_targets"] = $int_targets->name;
     }
 

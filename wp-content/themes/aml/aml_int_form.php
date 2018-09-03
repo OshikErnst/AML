@@ -158,7 +158,8 @@ get_header();
                                     <div class="entry-content entry">
                                     <?php if ( $_GET['sent'] == 'true' ) : ?> <div id="message" class="text-success"><p>form updated</p></div> <?php endif; ?>
 
-                                    <form method="post" id="updateform" action="<?php echo $_SERVER['REQUEST_URI']; ?>" >
+
+                                    <form method="post" id="updateform" enctype="multipart/form-data" action="<?php echo $_SERVER['REQUEST_URI']; ?>" >
 
                                     <?php
                                     global $post,$wpdb;
@@ -477,6 +478,17 @@ get_header();
 
 
                                     <?php if(current_user_can('administrator') || current_user_can('contributor')){?>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 col-sm-4 col-form-label" for="file_attached">Add File</label>
+                                        <div class="col-lg-4 col-sm-8">
+                                            <input type="file" class="filestyle" name="file_attached" id="file_attached" data-buttonname="btn-white">
+
+                                        </div>
+                                        
+                                        
+                                    </div>
+
 
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-sm-4 col-form-label" for="status">סטטוס</label>

@@ -1006,6 +1006,8 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 	        	$('#form_details_cancelled').text(form_title)
 	        });
 			
+			$('#cancelled_create').prop("disabled",false);
+			$('#cancelled_create').text("שמור פרטי ביטול");
 
 	    	$('#cancelledModal').modal('show');
 	    	$('#cancelled_create').attr('data-formId', formId);
@@ -1132,20 +1134,21 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 		var cancelled_comments = $("#cancelled_comments").val();
 		var LogType;
 
-		if(cancelled_time && cancelled_name && cancelled_reason){
-		    $('#cancelled_create').prop("disabled",true);
-		    $('#cancelled_create').text("Loading...");
-		    
-		    <?php if(is_front_page() || is_page('local-forms') || is_page('form')){?>
-		    	LogType = '1';
-		    	formLang = '1';
-		    <?php }elseif(is_page('int-forms') || is_page('int-form')){?>
-		    	LogType = '2';
-		    	formLang = '2';
-		    <?php } ?>
 		
+	    
+	    <?php if(is_front_page() || is_page('local-forms') || is_page('form')){?>
+	    	LogType = '1';
+	    	formLang = '1';
+	    <?php }elseif(is_page('int-forms') || is_page('int-form')){?>
+	    	LogType = '2';
+	    	formLang = '2';
+	    <?php } ?>
 
-		    $.ajax({
+		if(cancelled_time && cancelled_name && cancelled_reason){
+			$('#cancelled_create').prop("disabled",true);
+	    	$('#cancelled_create').text("Loading...");
+
+			$.ajax({
 		     type: 'post',
 		     url: '<?php echo bloginfo('url');?>/fetch/aml_cancelled_create.php',
 		     
@@ -1157,30 +1160,28 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 		      cancelled_comments:cancelled_comments,
 		      LogType:LogType
 
-		     },
-		     success: function (response) {
-		        $('#cancelled_create').prop("disabled",false);
-		        $('#cancelled_create').text("שמור פרטי ביטול");
-		        $('#cancelledModal').modal('hide');
+		     }
+			})
+			
 
-		        $.ajax({
+			$.ajax({
 			     type: 'post',
 			     url: '<?php echo bloginfo('url');?>/fetch/aml_send_cancel.php',
-			     dataType : 'json',
+			    
 			     data: {
 			      formID:formId,
 			      formLang:formLang
-			     },
-			     success: function (response) {
-			     	
 			     }
 
-			    });
+			    })
+			    .done(function (response) {
 
+				    $('#cancelled_create').prop("disabled",false);
+			        $('#cancelled_create').text("שמור פרטי ביטול");
+			        $('#cancelledModal').modal('hide');
+			     	
+			     })
 
-		     }
-
-		    });
 		}else{
 		    
 		    alert("נא להזין את כל שדות החובה");
