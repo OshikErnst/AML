@@ -1076,6 +1076,13 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 		var received_comments = $("#received_comments").val();
 		var LogType;
 
+		<?php global $current_user;
+              get_currentuserinfo();
+              
+              
+        ?>
+        var currentUser = "<?php echo $current_user->display_name;?>";
+
 		if(received_time && received_sender_name && received_receiver_name){
 		    $('#received_create').prop("disabled",true);
 		    $('#received_create').text("Loading...");
@@ -1098,7 +1105,8 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 		      received_receiver_name:received_receiver_name,
 		      received_comments:received_comments,
 		      LogType:LogType,
-		      actionType:actionType
+		      actionType:actionType,
+		      currentUser:currentUser
 
 		     },
 		     success: function (response) {
@@ -1134,6 +1142,13 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 		var cancelled_comments = $("#cancelled_comments").val();
 		var LogType;
 
+		<?php global $current_user;
+              get_currentuserinfo();
+              
+              
+        ?>
+        var currentUser = "<?php echo $current_user->display_name;?>";
+
 		
 	    
 	    <?php if(is_front_page() || is_page('local-forms') || is_page('form')){?>
@@ -1158,7 +1173,8 @@ if(is_page('int-forms') ||  is_front_page() || is_page('local-forms')){
 		      cancelled_name:cancelled_name,
 		      cancelled_reason:cancelled_reason,
 		      cancelled_comments:cancelled_comments,
-		      LogType:LogType
+		      LogType:LogType,
+		      currentUser:currentUser
 
 		     }
 			})

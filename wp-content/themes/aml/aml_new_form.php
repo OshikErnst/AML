@@ -620,11 +620,14 @@ get_header();
 
  <script>
     var hour_limit;
+    var is_taxi;
     var $form = $('form')
 
         
 $( document ).ready(function() {
     $($form).data('serialize',$($form).serialize());
+
+    check_if_taxi();
 
     $("#date").datepicker({
         <?php if(!current_user_can('administrator')){?> startDate: "today", <?php }?> 
@@ -661,7 +664,7 @@ $( document ).ready(function() {
 
 
     $('#newform').submit(function() {
-
+        check_if_taxi();
         var todayObj = moment().format('DD/MM/YYYY');
         var dateString = $('#date').val();
 
@@ -671,15 +674,16 @@ $( document ).ready(function() {
 
         var nowObj = moment();
 
-
+        
         //check if today passed then check if for future
      
         if(todayObj == dateString){
-            
-            if(nowObj >= todayLimit){
-                
-                $('#cant_send').modal('show');    
-                return false;
+            if(is_taxi!='yes'){
+                if(nowObj >= todayLimit){
+                    
+                    $('#cant_send').modal('show');    
+                    return false;
+                }
             }
         }else{
             
@@ -691,6 +695,7 @@ $( document ).ready(function() {
         }
 
         
+
         $('.sending').show();
         
         
@@ -836,7 +841,7 @@ function check_pickuptype(){
  },
  success: function (response) {
     if(response==0){
-        
+        is_taxi = 'no';
         $('#notaxi_pickup').show();
         $('#taxi_pickup').hide();
         $('#taxi_hour').attr("disabled","disabled");
@@ -845,7 +850,7 @@ function check_pickuptype(){
         $('#hour_to').removeAttr("disabled");
 
     }else{
-
+        is_taxi = 'yes';
         $('#notaxi_pickup').hide();
         $('#taxi_pickup').show();
         $('#taxi_hour').removeAttr("disabled");
@@ -860,6 +865,24 @@ function check_pickuptype(){
 
 
 
+}
+
+
+function check_if_taxi(){
+ $.ajax({
+ type: 'post',
+ url: '../fetch/aml_fetch_is_taxi.php',
+ data: {
+  get_option:$("#pickup").val()
+ },
+ success: function (response) {
+    if(response==0){
+        is_taxi = 'no';
+    }else{
+        is_taxi = 'yes';
+    }
+ }
+ });
 }
 
 </script>    

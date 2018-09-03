@@ -8,6 +8,7 @@ $received_sender_name = $_POST['received_sender_name'];
 $received_receiver_name = $_POST['received_receiver_name'];
 $received_comments = $_POST['received_comments'];
 $LogType = $_POST['LogType']; //regular or international
+$currentUser = $_POST['currentUser'];
 $LogDate = date("d/m/Y");
 
 
@@ -33,7 +34,7 @@ switch ($_POST['actionType']) {
 
 
 
-$text_for_log = $received_receiver_name . ' ' . $actionType . ' מספר '.$formid.' בשעה '.$received_time.', שם השליח: '.$received_sender_name.', הערות לקבלת המשלוח: '.$received_comments;
+$text_for_log = $received_receiver_name . ' ' . $actionType . ' מספר '.$formid.' בשעה '.$received_time.', שם השליח: '.$received_sender_name.', הערות לקבלת המשלוח: '.$received_comments.'<br />User: '.$currentUser;
 
 
 $wpdb->insert( 
@@ -45,8 +46,5 @@ $wpdb->insert(
 
 	)
 );
-
-echo $wpdb->last_query;
-echo $wpdb->last_error ;
 
 ?>
